@@ -61,4 +61,19 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+# import_config "prod.secret.exs"
+
+config :gigatest, GigatestWeb.Endpoint,
+  load_from_system_env: true,
+  http: [port: {:system, "PORT"}],
+  server: true, # Sin esta línea la aplicación no inicializa un servidor web
+  secret_key_base: "${SECRET_KEY_BASE}",
+  url: [host: "example.com", port: 80],
+  cache_static_manifest: "priv/static/cache_manifest.json"
+
+config :gigatest, Gigatest.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: "${DATABASE_URL}",
+  database: "",
+  ssl: true,
+  pool_size: 1 # La base de datos gratuita sólo permite 2 conexiones. Los despliegues requiren n+1
