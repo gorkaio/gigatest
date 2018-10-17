@@ -1,0 +1,9 @@
+language: elixir
+elixir: 1.7.3
+otp_release: '21.1'
+script:
+  - mix test && ./deploy.sh
+services:
+  - postgresql
+before_script:
+  - PGPASSWORD=postgres psql -c 'create database frontend_test;' -U postgres
